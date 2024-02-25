@@ -1,0 +1,142 @@
+---
+title: "Formative Assessment 3"
+author: "Vera Aguila"
+date: "2024-02-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Question 2
+
+2.  A binary communication channel carries data as one of two sets of signals denoted by 0 and 1. Owing to noise, a transmitted 0 is sometimes received as a 1, and a transmitted 1 is sometimes received as a 0. For a given channel, it can be assumed that a transmitted 0 is correctly received with probability 0.95, and a transmitted 1 is correctly received with probability 0.75. Also, 70% of all messages are transmitted as a 0. If a signal is sent, determine the probability that:
+<br>
+Given when event:
+<br>  0 is received = R~0~ = 0.95
+<br>  1 is received = R~1~ = 0.75
+<br>  0 is transmitted = T~0~ = 0.7
+<br>  1 is transmitted = T~1~ = 0.3
+  
+*(a) a 1 was received;
+  <br>  P(R~1~) = P(T~0~) P(R~1~|T~0~) + P(T~1~) P(R~1~|T~1~)
+  <br><br>   P(T~0~) = 0.7                <br>    P(T~1~) = 0.3
+  <br>       P(R~1~|T~0~) = 1 - 0.95 = 0.05    <br>   P(R~1~|T~1~) = 0.75
+<br>
+```{r q2.1}
+# 0 is received = reZ = 0.95
+# 1 is received = reO = 0.75
+# 0 is transmitted = trZ = 0.7
+# 1 is transmitted = trO = 0.3
+
+reZ <- 0.95
+reO <- 0.75
+trZ <- 0.7
+trO <- 0.3
+
+prob1 <- (trZ*(1-reZ))+(trO*reO)
+cat("Probability of receiving 1 (P(R1)):", prob1, "\n")
+```
+<br>
+<br>
+*(b) a 1 was transmitted given than a 1 was received. 
+P(T~1~|R~1~) = \( \frac{P(T~1~)P(R~1~|T~1~)}{P(R~1~)} \)
+<br><br> P(T~1~) = 0.3        
+     P(R~1~) = 0.26
+<br>     P(R~1~|T~1~) = 0.75
+<br>
+```{r q2.2}
+prob2 <- (trO*reO)/(prob1)
+cat("Probability of receiving 1 when 1 was transmitted: ", prob2, "\n")
+```
+<br>
+<br>
+
+
+### Question 7
+
+7.  There are three employees working at an IT company: Jane, Amy, and Ava, doing 10%, 30%, and 60% of the programming, respectively. 8% of Jane’s work, 5% of Amy’s work, and just 1% of Ava‘s work is in error. What is the overall percentage of error? If a program is found with an error, who is the most likely person to have written it? <br>
+<br>    Given:
+<br>    work of Jane = W~J~ = 0.1
+<br>    work of Amy = W~Am~ = 0.3
+<br>    work of Ava = W~Av~ = 0.6
+<br>    Error:
+<br>    error of Jane = E~J~ = 0.08
+<br>    error of Amy = E~Am~ = 0.05
+<br>    error of Ava = E~Av~ = 0.01
+<br><br>
+<br>    *(a) overall percentage of error
+<br>    E = (J ∩ E) ∪ (Am ∩ E) ∪ (Av ∩ E)
+<br>    P(E) = P(J)P(E|J) + P(Am)P(E|Am) + P(Av)P(E|Av) 
+<br><br> P(J) = 0.1
+<br>    P(E|J) = 0.08
+<br>    P(Am) = 0.3
+<br>    P(E|Am) = 0.05
+<br>    P(Av) = 0.6
+<br>    P(E|Av) = 0.01
+<br>
+```{r q7.1}
+# work of Jane = WJ = 0.1
+# work of Amy = WAm = 0.3
+# work of Ava = WAv = 0.6
+# error of Jane = EJ = 0.08
+# error of Amy = EAm = 0.05
+# error of Ava = EAv = 0.01
+# E = overall error
+
+WJ = 0.1
+WAm = 0.3
+WAv = 0.6
+EJ = 0.08
+EAm = 0.05
+EAv = 0.01
+
+E <- (WJ*EJ) + (WAm*EAm) + (WAv*EAv)
+E <- E*100
+cat("The overall percentage of error:", E, "%\n")
+```
+<br><br>
+*(b) If a program is found with an error, who is the most likely person to have written it?
+<br>
+<br>**Percentage error of Jane:**
+<br> P(J|E) = \( \frac{P(W~J~)P(E|W~J~)}{P(E)} \)
+<br> P(W~J~) = 0.1
+<br> P(E|W~J~) = 0.08
+<br> P(E) = 0.029
+<br>
+```{r q7.2}
+E <- E/100
+prob3 <- (WJ*EJ)/E
+prob3 <- prob3*100
+cat("The percentage of error:", prob3,"%\n")
+```
+<br>
+<br>**Percentage error of Amy:**
+<br> P(Am|E) = \( \frac{P(W~Am~)P(E|W~Am~)}{P(E)} \)
+<br> P(W~Am~) = 0.3
+<br> P(E|W~JAm~) = 0.05
+<br> P(E) = 0.029
+<br>
+```{r q7.3}
+prob4 <- (WAm*EAm)/E
+prob4 <- prob4*100
+cat("The percentage of error:", prob4,"%\n")
+```
+<br>
+<br>**Percentage error of Ava:**
+<br> P(Av|E) = \( \frac{P(W~Av~)P(E|W~Av~)}{P(E)} \)
+<br> P(W~Av~) = 0.6
+<br> P(E|W~JAv~) = 0.01
+<br> P(E) = 0.029
+<br>
+```{r q7.4}
+prob5 <- (WAv*EAv)/E
+prob5 <- prob5*100
+cat("The percentage of error:", prob5,"%\n")
+```
+<br>
+<br>
+Since the highest percentage of error is 51.72%, the most likely person to have written it is Amy.
+<br><br>
+
